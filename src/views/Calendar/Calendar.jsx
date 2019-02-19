@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import dateFns from "date-fns";
-import Modal, { closeStyle } from 'simple-react-modal';
+import Modal from 'simple-react-modal';
 import "../Calendar/Calendar.css";
-import Dashboard from "../../layouts/Dashboard/Dashboard";
+// import Dashboard from "../../layouts/Dashboard/Dashboard";
 import firebase from 'firebase';
-import Firebase from '../../Firebase/Firebase';
+// import Firebase from '../../Firebase/Firebase';
 
 class Calendar extends Component {
     constructor() {
@@ -50,6 +50,7 @@ class Calendar extends Component {
             endTime: '',
         })
     }
+
 
     renderHeader() {
         const dateFormat = "MMMM YYYY";
@@ -165,9 +166,6 @@ class Calendar extends Component {
             currentMonth: dateFns.subMonths(this.state.currentMonth, 1)
         });
     };
-
-
-
 
     render() {
         return (

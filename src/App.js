@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Dashboard from "../src/layouts/Dashboard/Dashboard";
-import Calendar from './views/Calendar/Calendar';
-import Login from './views/Login/Login';
-import { HashRouter, Route, Switch, Router } from "react-router-dom";
+import React from 'react';
+// import Dashboard from "../src/layouts/Dashboard/Dashboard";
+// import Calendar from './views/Calendar/Calendar';
+// import Login from './views/Login/Login';
+import { HashRouter, Route, Switch } from "react-router-dom";
 
-import indexRoutes from "routes/index.jsx";
-import loginRoutes from "routes/index.jsx";
+import indexRoutes from "../src/routes/index";
+// import loginRoutes from "../routes/index.jsx";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/animate.min.css";

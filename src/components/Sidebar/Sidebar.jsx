@@ -3,13 +3,14 @@ import { NavLink } from "react-router-dom";
 
 import HeaderLinks from "../Header/HeaderLinks.jsx";
 
-import imagine from "assets/img/sidebar-3.jpg";
-import logo from "assets/img/reactlogo.png";
 
-import dashboardRoutes from "routes/dashboard.jsx";
+import imagine from "../../assets/img/sidebar-3.jpg";
+// import logo from "assets/img/reactlogo.png";
 
-import {Link, Route} from 'react-router-dom';
-import Login from '../../views/Login/Login';
+import dashboardRoutes from "../../routes/dashboard.jsx";
+
+// import {Link, Route} from 'react-router-dom';
+// import Login from '../../views/Login/Login';
 
 class Sidebar extends Component {
   constructor(props) {
@@ -46,7 +47,7 @@ class Sidebar extends Component {
             className="simple-text logo-mini"
           >
             <div className="logo-img">
-              <img src={logo} alt="logo_image" />
+              {/* <img src={logo} alt="logo_image" /> */}
             </div>
           </a>
           <a
