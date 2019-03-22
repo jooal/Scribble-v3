@@ -4,40 +4,48 @@ import Modal from 'simple-react-modal';
 import "../Calendar/Calendar.css";
 // import Dashboard from "../../layouts/Dashboard/Dashboard";
 import firebase from 'firebase';
+import Firebase from "../../Firebase/Firebase"
 // import Firebase from '../../Firebase/Firebase';
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
+import mobiscroll from "@mobiscroll/react";
+import "@mobiscroll/react/dist/css/mobiscroll.min.css";
 
 class Calendar extends Component {
     constructor() {
         super();
-    
+
     this.state = {
         currentMonth: new Date(),
         selectedDate: new Date(),
         title: "",
         date: "",
         startTime: "",
-        endTime: ""
+        endTime: "", 
+        items: [], 
     } 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 }
+
     handleChange= (event) => {
         // console.log(event.target)
-        const title = event.target.title;
-        const endTime = event.target.endTime;
+        const title = event.target.name;
+        // const endTime = event.target.endTime;
+        console.log(event.target);
      
         this.setState ({
-            value: event.target.value,
+            // value: event.target.value,
             [title]: event.target.value,
             // [startTime]: event.target.value, 
-            endTime: event.target.value, 
+            // endTime: event.target.value, 
             // date: event.target.value
         }) 
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const itemsRef = firebase.database().ref('events');
+        const itemsRef = firebase.database().ref('items');
         const item = {
             title: this.state.title, 
             startTime: this.state.startTime, 
@@ -48,7 +56,31 @@ class Calendar extends Component {
             title: '',
             startTime: '',
             endTime: '',
-        })
+        });
+    }
+
+    componentDidMount() {
+        const itemsRef = firebase.database().ref('items');
+        itemsRef.on('value', (snapshot)=> {
+            let items = snapshot.val();
+            let newState = [];
+            for (let item in items) {
+                newState.push({
+                    id: item,
+                    title: items[item].title,
+                    endTime: items[item].endTime,
+                    startTime: items[item].startTime
+                });
+            }
+            this.setState({
+            items: newState
+        });
+    });
+    }
+
+    removeItem(itemId) {
+        const itemRef = firebase.database().ref(`/items/${itemId}`);
+        itemRef.remove();
     }
 
 
@@ -72,7 +104,6 @@ class Calendar extends Component {
             </div>
         );
     }
-
 
     renderDays() {
         const dateFormat = "dddd";
@@ -117,6 +148,7 @@ class Calendar extends Component {
                         key={day}
                         onClick={() => this.onDateClick(dateFns.parse(cloneDay))}
                     >
+                    
                         <span className="number">{formattedDate}</span>
                         <span className="bg">{formattedDate}</span>
                     </div>
@@ -139,7 +171,8 @@ class Calendar extends Component {
         console.log("Modal");
         this.setState({
             showModal: true, 
-            selectedDate: this.state.selectedDate
+            // selectedDate: this.state.selectedDate
+
         });
     }
 
@@ -150,7 +183,8 @@ class Calendar extends Component {
 
     onDateClick = day => {
         this.setState({
-            selectedDate: day
+            selectedDate: day,
+
         });
         this.showModal();
     };
@@ -167,6 +201,7 @@ class Calendar extends Component {
         });
     };
 
+
     render() {
         return (
             <div className="calendar">
@@ -175,24 +210,29 @@ class Calendar extends Component {
                 {this.renderDays()}
                 {this.renderCells()}
 
+
                     <Modal animationType="fade"
                         transparent={true}
                         visible={this.props.visible}
                         containerClassName="test"
-                        style={{backgroundColor: "rgba(0,0,0,0.2)", marginLeft: "200px" }} 
+                        style={{backgroundColor: "rgba(0,0,0,0.2)", marginLeft: "260px" }} 
                         closeOnOuterClick={true}
                         show={this.state.showModal}
                         onClose={this.closeModal}>
 
                         {/* <a className="close-modal" onClick={this.closeModal}>X</a> */}
-                        <h5 className="this-date">Day MM/DD/YYYY</h5>
-                        <div className="modal-content">
+                  
+                        <h5 className="this-date">{this.state.selectedDate
+                        ? this.state.selectedDate.toLocaleDateString():''}</h5>
+                        {/* <div className="modal-content"> */}
 
                         <ul className="task-items">
-                            <li>item 1</li>
-                            <li>item 2</li>
-                            <li>item 2</li>
-                            <li>item 2</li>
+                            {this.state.items.map((item)=> {
+                                return(
+                            <li key={item.id}>{item.title}, {item.startTime} - {item.endTime} <span></span>
+                            <button onClick={()=> this.removeItem(item.id)}>x</button>
+                            </li> )
+                            })}
                         </ul>
                         <form className="add-event">
                             <input name="title" type="text" placeholder="Title *" onChange={this.handleChange} value={this.state.title}></input><br></br>
@@ -200,7 +240,7 @@ class Calendar extends Component {
                             <input name="endTime" type="text" placeholder="End" onChange={this.handleChange} value={this.state.endTime}></input><br></br>
                             <button onClick = {this.handleSubmit} className ="add-new-event" type="submit">Add</button>
                         </form>
-                        </div>
+                        {/* </div> */}
 
                         <div className="modalOverlay">
                             <div className="modal-info">

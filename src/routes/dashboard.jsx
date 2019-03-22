@@ -10,6 +10,8 @@ import Calendar from "../views/Calendar/Calendar";
 import ToDo from "../views/ToDo/ToDo";
 import Contacts from "../views/Contacts/Contacts";
 import Login from "../views/Login/Login";
+import Chat from "../layouts/Chat/Chat";
+import Calendar2 from "../../src/views/Calendar/Calendar2";
 
 const dashboardRoutes = [
 
@@ -30,7 +32,7 @@ const dashboardRoutes = [
     path: "/messages",
     name: "Messages",
     icon: "pe-7s-users",
-    component: Typography
+    component: Chat
   },
   {
     path: "/contacts",

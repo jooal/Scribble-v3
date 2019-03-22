@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import { Col } from "react-bootstrap";
 
-import { Card } from "../../components/Card/Card.jsx";
+import { Card1 } from "../../components/Card/Card1.jsx";
+import {Card2} from "../../components/Card/Card2.jsx";
 import { Tasks } from "../../components/Tasks/Tasks.jsx";
 
 class ToDo extends Component {
+
+
   
   render() {
     return (
       <div className="content">
             <Col md={6}>
-              <Card
+              <Card1
                 title="Tasks"
                 category="Today"
                 stats="Updated 3 minutes ago"
@@ -18,14 +21,14 @@ class ToDo extends Component {
                 content={
                   <div className="table-full-width">
                     <table className="table">
-                      <Tasks />
+                      {/* <Tasks /> */}
                     </table>
                   </div>
                 }
               />
             </Col>
             <Col md={6}>
-              <Card
+              <Card2
                 title="Tasks"
                 category="This Week"
                 stats="Updated 3 minutes ago"
@@ -33,7 +36,7 @@ class ToDo extends Component {
                 content={
                   <div className="table-full-width">
                     <table className="table">
-                      <Tasks />
+                      {/* <Tasks /> */}
                     </table>
                   </div>
                 }
